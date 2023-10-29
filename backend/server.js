@@ -1,10 +1,16 @@
 require('dotenv').config()
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const workoutRoutes = require('./routes/workouts');
 
 // express app
 const app = express();
+
+
+// Use cors for local development, fix same website policy
+app.use(cors());
+
 
 // middleware
 app.use(express.json()); // Allows for request body to be accessed by the request handler (getting /:id)
@@ -14,8 +20,10 @@ app.use((req, res, next) => {
     next(); // this has to be called
 });
 
+
 // route handlers
 app.use('/api/workouts', workoutRoutes);
+
 
 // Connect to the DB
 mongoose.connect(process.env.MONGO_URI)
