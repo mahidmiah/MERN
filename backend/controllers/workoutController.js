@@ -30,6 +30,9 @@ const getWorkout = async (req, res) => {
 
 // create a new workout
 const createWorkout = async (req, res) => {
+
+    console.log('[Debug]: ', req.body);
+
     const {title, load, reps} = req.body;
 
     // add doc to db
