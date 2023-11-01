@@ -9,6 +9,7 @@ function AddWorkoutForm() {
   const [title, setTitle] = useState('');
   const [load, setLoad] = useState('');
   const [reps, setReps] = useState('');
+  const [emptyFields, setEmptyFields] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +28,8 @@ function AddWorkoutForm() {
 
     if (!response.ok) {
       toast.error(json.error);
+      setEmptyFields(json.emptyFields);
+      console.error(json);
     }
 
     if (response.ok) {
@@ -37,6 +40,7 @@ function AddWorkoutForm() {
       setTitle('')
       setLoad('')
       setReps('')
+      setEmptyFields(null);
 
       // Add workout to state
       addWorkout(json.workout);
@@ -57,7 +61,7 @@ function AddWorkoutForm() {
         <label>
           <p>Workout title:</p>
           <input
-            className='mt-2 h-10 rounded-md border w-full'
+            className={`mt-2 h-10 rounded-md border w-full pl-2 ${emptyFields && emptyFields.includes('title') && 'border-red-500'}`}
             type='text'
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -67,7 +71,7 @@ function AddWorkoutForm() {
         <label>
           <p>Load (in kg):</p>
           <input
-            className='mt-2 h-10 rounded-md border w-full'
+            className={`mt-2 h-10 rounded-md border w-full pl-2 ${emptyFields && emptyFields.includes('load') && 'border-red-500'}`}
             type='text'
             value={load}
             onChange={(e) => setLoad(e.target.value)}
@@ -77,7 +81,7 @@ function AddWorkoutForm() {
         <label>
           <p>Reps:</p>
           <input
-            className='mt-2 h-10 rounded-md border w-full'
+            className={`mt-2 h-10 rounded-md border w-full pl-2 ${emptyFields && emptyFields.includes('reps') && 'border-red-500'}`}
             type='text'
             value={reps}
             onChange={(e) => setReps(e.target.value)}

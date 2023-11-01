@@ -1,6 +1,7 @@
 import useWorkoutStore from '@/stores/workoutStore';
 import React from 'react'
 import { toast } from 'sonner';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 function WorkoutDetail({ workout }) {
 
@@ -16,7 +17,7 @@ function WorkoutDetail({ workout }) {
     const json = await response.json()
 
     if (!response.ok) {
-      toast.error(json.error);
+      toast.error(json.Error);
     }
 
     if (response.ok) {
@@ -36,7 +37,7 @@ function WorkoutDetail({ workout }) {
       <div className='pt-3 text-gray-700 font-thin flex flex-col gap-y-1'>
         <p><span className='font-semibold'>Load (kg): </span>{load}</p>
         <p><span className='font-semibold'>Reps: </span>{reps}</p>
-        <p>{createdAt}</p>
+        <p>{formatDistanceToNow(new Date(createdAt), {addSuffix: true})}</p>
       </div>
 
       <button 
