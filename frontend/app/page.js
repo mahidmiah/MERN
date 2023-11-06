@@ -13,7 +13,15 @@ export default function Home() {
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch('http://localhost:4000/api/workouts/');
+
+      const response = await fetch('http://localhost:4000/api/workouts/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:4000' 
+        },
+        credentials: "include"
+      });
       const { workouts } = await response.json();
       if (response.ok) {
         workouts.map(workout => {
@@ -36,9 +44,11 @@ export default function Home() {
 
         <div className='flex flex-col gap-y-4 lg:w-2/3'>
           {
-            storedWorkouts && Object.values(getSortedWorkouts()).map((workout) => (
+            Object.values(storedWorkouts).length > 0 ? Object.values(getSortedWorkouts()).map((workout) => (
               <WorkoutDetail key={workout._id} workout={workout} />
             ))
+            :
+            <p>No Data</p>
           }
         </div>
 

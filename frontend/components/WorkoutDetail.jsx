@@ -12,12 +12,17 @@ function WorkoutDetail({ workout }) {
   const handleDelete = async () => {
     const response = await fetch('http://localhost:4000/api/workouts/' + workout._id, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'http://localhost:4000' 
+      },
+      credentials: "include"
     });
 
     const json = await response.json()
 
     if (!response.ok) {
-      toast.error(json.Error);
+      toast.error(json.error);
     }
 
     if (response.ok) {
